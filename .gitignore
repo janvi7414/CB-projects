@@ -1,0 +1,8 @@
+# Ignore executable and object files
+*.exe
+*.o
+
+# Ignore build directories
+/build/
+/bin/
+/obj/
