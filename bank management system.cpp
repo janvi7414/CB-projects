@@ -16,16 +16,17 @@ private:
     int entered_acc_number;
     string entered_acc_name;
     double entered_acc_balance;
+    double entered_withdraw_amt;
+    double entered_deposit_amt;
 
 public:
     void input();
     void setflag();
     bool verify();//returns 1 if details are not matched or not present in the text file//
     void write_details();//to paste details in the txt file//
-    create_acc(int number,string name,double initialbalance);
-    deposit(double amount);
-    withdraw(double amount);
-    showbalance();
+    void withdraw(bool is_valid);
+    void deposite(bool is_valid);
+    void check_balance(bool is_valid);
 
 };
 
@@ -33,6 +34,48 @@ public:
 void bank_account::setflag()
 {
     flag=1;
+}
+
+void bank_account::deposite(bool is_valid)
+{
+    if(is_valid)
+    {
+        cout<<endl<<"enter amount to deposit: ";
+        cin>>entered_deposit_amt;
+        acc_balance=acc_balance+entered_deposit_amt;
+        cout<<endl<<"amount withdrawn successfully";
+        cout<<endl<<"balance: "<<acc_balance;
+        return ;
+    }
+    cerr<<"unable to deposit an amount..!";
+    return ;
+}
+
+void bank_account::withdraw(bool is_valid)
+{
+    if(is_valid)
+    {
+        cout<<endl<<"enter amount to withdraw: ";
+        cin>>entered_withdraw_amt;
+        acc_balance=acc_balance-entered_withdraw_amt;
+        cout<<endl<<"amount withdrawn successfully";
+        cout<<endl<<"balance: "<<acc_balance;
+        return ;
+    }
+    cerr<<"unable to withdraw an amount..!";
+    return ;
+}
+
+void bank_account::check_balance(bool is_valid)
+{
+
+    if(is_valid)
+    {
+        cout<<endl<<"balance: "<<acc_balance;
+        return ;
+    }
+    cerr<<"unable to show balance..!";
+    return ;
 }
 
 //to save details in text file//
@@ -103,15 +146,15 @@ bool bank_account::verify()
        //to check if acc no. exists in the txt file//
        if(entered_acc_number==acc_number)
        {
-           cout<<endl<<"acc number already exist";
-           return 0;//details matched//
+           cout<<endl<<"acc number exists";
+           return 1;//details matched//
        }
    }
 
 /*to verify
    cout<<endl<<"acc number does not exist ";*/
    acc_file.close();
-   return 1;
+   return 0;
 
 }
 
@@ -123,14 +166,19 @@ void bank_account::input()
     cout<<"Enter name of acc holder: ";
     cin.ignore();
     getline(cin,entered_acc_name);
+
+    //calling as well as obtaining result of verify function//
+    /*if verify returns 0 i.e. acc no. is not already present it is
+    saved in text file*/
+    //verify inside input is called only for case 1//
     if(flag)
     {
         cout<<"Enter initial balance: ";
         cin>>entered_acc_balance;
-    }
-    if(verify())
-    {
-        write_details();
+        if(!verify())
+            {
+                write_details();
+            }
     }
 
 }
@@ -153,24 +201,27 @@ int main()
                 //setting flag to execute balance enquiry function for this case only//
                 obj.setflag();
                 obj.input();
-                /*if verify returns 1 i.e. acc no. is not already present it is
-                saved in text file*/
-
               break;
             }
             case 2:
             {
                 bank_account obj;
                 obj.input();
-
+                obj.deposite(obj.verify());
                 break;
             }
             case 3:
                 {
+                    bank_account obj;
+                    obj.input();
+                    obj.withdraw(obj.verify());
                     break;
                 }
             case 4:
                 {
+                    bank_account obj;
+                    obj.input();
+                    obj.check_balance(obj.verify());
                     break;
                 }
             case 5:

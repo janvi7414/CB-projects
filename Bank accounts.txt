@@ -2,3 +2,5 @@
 452,Rohny Clarnson,1542.45
 526,Rose Clark,15423.22
 786,Mark Manson,1200;
+783,Ramen Bezoz,100;
+23,Janvi Chichudde,100;
