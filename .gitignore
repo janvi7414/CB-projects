@@ -1,6 +1,7 @@
 # Ignore executable and object files
 *.exe
 *.o
+practise.cpp
 
 # Ignore build directories
 /build/
