@@ -146,8 +146,25 @@ bool bank_account::verify()
        //to check if acc no. exists in the txt file//
        if(entered_acc_number==acc_number)
        {
-           cout<<endl<<"acc number exists";
-           return 1;//details matched//
+           //cout for case 1 only//
+           if(flag)
+           {
+               cout<<endl<<"account already exists";
+               acc_file.close();
+               return 1;
+           }
+
+           //for cases other than case 1 matching acc name as well//
+           if(entered_acc_name==acc_name)
+           {
+               cout<<endl<<"login successfull";
+               acc_file.close();
+               return 1;//details matched//
+           }
+           //if acc no. matched but not the acc holder's name//
+           cerr<<endl<<"invalid acc holder's name..!";
+           acc_file.close();
+           return 0;
        }
    }
 
